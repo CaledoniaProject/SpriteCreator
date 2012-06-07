@@ -4,10 +4,10 @@
 
 #define SPRITE_TEMPLATE \
     ".sprite_%1 { \n" \
-    "\t background: url('images/sprite_autogen.png'); \n" \
-    "\t width: %2; \n" \
-    "\t height: %3; \n" \
-    "} \n"
+    " background: url('images/sprite_autogen.png') no-repeat %2px -%3px; \n" \
+    " width: %4px; \n" \
+    " height: %5px; \n" \
+    "}; \n"
 
 SpriteCreator::SpriteCreator(QMainWindow *parent) :
     QMainWindow(parent),
@@ -114,17 +114,28 @@ void SpriteCreator::on_pushButton_clicked()
     QImage output = QImage (x , y , QImage::Format_ARGB32);
     output.fill(Qt::transparent);
     QPainter painter (&output);
+//    QString outputHtml;
+//    outputHtml.resize(100 * fileNames.size());
 
     y = 0;
     foreach (const QImage *img , images)
     {
         ///
+        const QString & fileName = fileNames.first();
+        fileNames.pop_front();
+
+        static QRegExp characters ("^([a-zA-Z0-9]+)");
+        if ( characters.indexIn(fileName) == -1 )
+            continue;
+
         ui->plainTextEdit->appendPlainText(QString(SPRITE_TEMPLATE)
-                                           .arg(fileNames.first())
+                                           .arg(characters.cap(1))
+                                           .arg(0)
+                                           .arg(y)
                                            .arg(img->width())
                                            .arg(img->height()));
 
-        fileNames.pop_front();
+//        outputHtml.append("<div class=\"%1\"></div>").arg(haracters.cap(1));
 
         ///
         painter.drawImage(0 , y , *img);

@@ -4,9 +4,9 @@
 
 #define SPRITE_TEMPLATE \
     ".sprite_%1 { \n" \
-    " background: url('images/sprite_autogen.png') no-repeat %2px -%3px; \n" \
-    " width: %4px; \n" \
-    " height: %5px; \n" \
+    "   background: url('images/sprite_autogen.png') no-repeat %2px -%3px; \n" \
+    "   width: %4px; \n" \
+    "   height: %5px; \n" \
     "}; \n"
 
 SpriteCreator::SpriteCreator(QMainWindow *parent) :
